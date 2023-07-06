@@ -45,15 +45,14 @@ public:
 
 	void checkStrikes(const string& guessNumber)
 	{
-		if (guessNumber[0] == answer[0])
-			result.strikes++;
-		if (guessNumber[1] == answer[1])
-			result.strikes++;
-		if (guessNumber[2] == answer[2])
-			result.strikes++;
+		for(int i = 0; i < 3; ++i)
+		{
+			if (guessNumber[i] == answer[i])
+				result.strikes++;
+		}
 	}
 
-	bool checkBalls(const char ch, int idx)
+	bool checkBall(const char ch, int idx)
 	{
 		for (int i = 0; i < 3; ++i) {
 			if (i == idx) continue;
@@ -63,6 +62,15 @@ public:
 			}
 		}
 		return false;
+	}
+
+	void checkTotalballs(const string& guessNumber)
+	{
+		for(int i = 0; i < 3; ++i)
+		{
+			if (guessNumber[i] != answer[i])
+				checkBall(guessNumber[i], i);
+		}
 	}
 
 	int getStrikes(void)
@@ -79,12 +87,7 @@ public:
 	{
 		assertIllegalArgument(guessNumber);
 		checkStrikes(guessNumber);
-
-		for(int i = 0; i < 3; ++i)
-		{
-			if (guessNumber[i] != answer[i])
-				checkBalls(guessNumber[i], i);
-		}
+		checkTotalballs(guessNumber);
 		
 		if (result.strikes == 3)
 			result.solved = true;

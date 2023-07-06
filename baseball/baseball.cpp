@@ -53,9 +53,26 @@ public:
 			result.strikes++;
 	}
 
+	bool checkBalls(const char ch, int idx)
+	{
+		for (int i = 0; i < 3; ++i) {
+			if (i == idx) continue;
+			if (ch == answer[i]) {
+				result.balls++;
+				return true;
+			}
+		}
+		return false;
+	}
+
 	int getStrikes(void)
 	{
 		return result.strikes;
+	}
+
+	int getBalls(void)
+	{
+		return result.balls;
 	}
 
 	GuessResult guess(const string &guessNumber)
@@ -63,6 +80,12 @@ public:
 		assertIllegalArgument(guessNumber);
 		checkStrikes(guessNumber);
 
+		for(int i = 0; i < 3; ++i)
+		{
+			if (guessNumber[i] != answer[i])
+				checkBalls(guessNumber[i], i);
+		}
+		
 		if (result.strikes == 3)
 			result.solved = true;
 

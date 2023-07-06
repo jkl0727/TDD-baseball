@@ -41,6 +41,6 @@ TEST_F(BaseballFixture, returnStrike) {
 	GuessResult result = game.guess("124");
 
 	EXPECT_FALSE(result.solved);
-	EXPECT_EQ(2, result.strikes);
+	EXPECT_EQ(2, game.getStrikes());
 	EXPECT_EQ(0, result.balls);
 }

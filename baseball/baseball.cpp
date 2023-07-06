@@ -14,7 +14,10 @@ class Baseball
 public:
 	explicit Baseball(const string&question, const string& answer)
 		: question(question),
-		answer(answer) {}
+		answer(answer),
+	result{false, 0, 0}
+	{
+	}
 
 	bool isDuplicateNumber(const string& guessNumber)
 	{
@@ -40,17 +43,34 @@ public:
 		}
 	}
 
+	void checkStrikes(const string& guessNumber)
+	{
+		if (guessNumber[0] == answer[0])
+			result.strikes++;
+		if (guessNumber[1] == answer[1])
+			result.strikes++;
+		if (guessNumber[2] == answer[2])
+			result.strikes++;
+	}
+
+	int getStrikes(void)
+	{
+		return result.strikes;
+	}
+
 	GuessResult guess(const string &guessNumber)
 	{
 		assertIllegalArgument(guessNumber);
-		if(guessNumber == "124")
-			return { false, 2, 0 };
-		return { true, 3, 0 };
+		checkStrikes(guessNumber);
+
+		if (result.strikes == 3)
+			result.solved = true;
+
+		return result;
 	}
 
 private:
 	string question;
 	string answer;
-	int strikes;
-	int balls;
+	GuessResult result;
 };
